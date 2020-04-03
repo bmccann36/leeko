@@ -1,0 +1,29 @@
+{
+  "name": "seed",
+  "version": "0.0.0",
+  "description": "all seed scripts go here",
+  "author": "mccann-b <brian@cedrus.digital>",
+  "homepage": "https://github.com/bmccann36/leeko#readme",
+  "license": "ISC",
+  "main": "lib/seed.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bmccann36/leeko.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "bugs": {
+    "url": "https://github.com/bmccann36/leeko/issues"
+  },
+  "dependencies": {
+    "faker": "^4.1.0"
+  }
+}

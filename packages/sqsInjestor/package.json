@@ -17,6 +17,7 @@
     "test": "echo \"Error: run tests from root\" && exit 1"
   },
   "dependencies": {
-    "awsutils": "file:../awsUtils"
+    "awsutils": "file:../awsUtils",
+    "serverless-dotenv-plugin": "^2.3.2"
   }
 }
