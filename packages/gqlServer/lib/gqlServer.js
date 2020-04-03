@@ -1,7 +1,13 @@
-'use strict';
+require('dotenv').config();
+const { ApolloServer } = require('apollo-server');
+const typeDefs = require('./schema');
+const resolvers = require('./resolvers');
 
-module.exports = gqlServer;
+const server = new ApolloServer({
+  typeDefs,
+  resolvers,
+});
 
-function gqlServer() {
-    // TODO
-}
+server
+  .listen()
+  .then(({ url }) => console.log(`Server is running on ${HOST_NAME}:4000`));

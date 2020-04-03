@@ -10,5 +10,7 @@
     "mocha": "^7.1.1",
     "uuidv4": "^6.0.7"
   },
-  "dependencies": {}
+  "dependencies": {
+    "dotenv": "^8.2.0"
+  }
 }

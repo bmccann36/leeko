@@ -17,6 +17,8 @@
     "test": "echo \"Error: run tests from root\" && exit 1"
   },
   "dependencies": {
-    "awsutils": "file:../awsUtils"
+    "awsutils": "file:../awsUtils",
+    "apollo-server": "^2.11.0",
+    "graphql": "^14.6.0"
   }
 }
