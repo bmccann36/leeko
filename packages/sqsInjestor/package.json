@@ -1,0 +1,22 @@
+{
+  "name": "sqsinjestor",
+  "version": "0.0.0",
+  "description": "serverless project for pulling messages off of sqs and piping them into DynamoDB",
+  "author": "mccann-b <brian@cedrus.digital>",
+  "homepage": "",
+  "license": "ISC",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "dependencies": {
+    "awsutils": "file:../awsUtils"
+  }
+}

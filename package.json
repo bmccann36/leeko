@@ -1,0 +1,10 @@
+{
+  "name": "root",
+  "private": true,
+  "scripts": {
+    "install-all": "lerna exec -- npm i"
+  },
+  "devDependencies": {
+    "lerna": "^3.20.2"
+  }
+}
