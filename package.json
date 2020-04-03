@@ -5,8 +5,9 @@
     "install-all": "lerna exec -- npm i"
   },
   "devDependencies": {
-    "lerna": "^3.20.2",
     "aws-sdk": "^2.652.0",
+    "lerna": "^3.20.2",
+    "mocha": "^7.1.1",
     "uuidv4": "^6.0.7"
   },
   "dependencies": {}

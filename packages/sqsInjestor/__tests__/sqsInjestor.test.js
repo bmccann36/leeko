@@ -1,7 +1,17 @@
 'use strict';
 
-const sqsInjestor = require('..');
+const sqsInjestor = require('../lib/index').consumeSqs;
+const fs = require('fs');
+const path = require('path');
+const mockInPath = path.join(__dirname, '..', 'mocks/sqsInput.json');
 
-describe('sqsInjestor', () => {
-    it('needs tests');
+const mockSqsFile = fs.readFileSync(mockInPath);
+const mockSqsInput = JSON.parse(mockSqsFile);
+
+
+describe('#sqsInjestor', () => {
+  it('consumeSqs entrypoint', () => {
+    // console.log(mockSqsInput);
+    sqsInjestor(mockSqsInput)
+  });
 });

@@ -3,7 +3,9 @@
 
 module.exports.consumeSqs = async (event) => {
 
-  console.log(JSON.stringify(event, null, 2));
+  const records = event.Records;
+  console.log("recieved ", records.length, " records")
+  console.log(records[0]);
 
 };
 
