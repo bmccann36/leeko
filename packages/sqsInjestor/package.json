@@ -18,6 +18,10 @@
   },
   "dependencies": {
     "awsutils": "file:../awsUtils",
+    "inversify": "^5.0.1",
+    "inversify-vanillajs-helpers": "^2.0.0",
+    "reflect-metadata": "^0.1.13",
+    "serverless": "^1.67.0",
     "serverless-dotenv-plugin": "^2.3.2"
   }
 }

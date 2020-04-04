@@ -162,7 +162,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/injestsvc/dev/1585876153260-2020-04-03T01:09:13.260Z/injestsvc.zip"
+          "S3Key": "serverless/injestsvc/dev/1586002119398-2020-04-04T12:08:39.398Z/injestsvc.zip"
         },
         "FunctionName": "injestsvc-dev-consumeSqs",
         "Handler": "lib/index.consumeSqs",
@@ -186,14 +186,14 @@
         "IamRoleLambdaExecution"
       ]
     },
-    "ConsumeSqsLambdaVersionY1Gcjb7y0sNh4iPiqeBopRUZ0z2a35mtipZnTIjamow": {
+    "ConsumeSqsLambdaVersionbDizG12BSzNPzTCK837HaYZc9z9DXcGbnnuzv2gPP7U": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "ConsumeSqsLambdaFunction"
         },
-        "CodeSha256": "mdFyEQ+vAWRXRp2ou1dldT5XTag+dM4IgpkOPk4haI0="
+        "CodeSha256": "O6dqzwsp2YQu/2mtsAc0sBmRYVQQ74DDEi5ew90cptQ="
       }
     },
     "ConsumeSqsEventSourceMappingSQSSqsQueue": {
@@ -221,6 +221,25 @@
       "Properties": {
         "QueueName": "leeko-queue-dev"
       }
+    },
+    "LeekoMessageTemplateTable": {
+      "Type": "AWS::DynamoDB::Table",
+      "Properties": {
+        "BillingMode": "PAY_PER_REQUEST",
+        "TableName": "LeekoMessageTemplate",
+        "AttributeDefinitions": [
+          {
+            "AttributeName": "templateId",
+            "AttributeType": "S"
+          }
+        ],
+        "KeySchema": [
+          {
+            "AttributeName": "templateId",
+            "KeyType": "HASH"
+          }
+        ]
+      }
     }
   },
   "Outputs": {
@@ -232,7 +251,7 @@
     "ConsumeSqsLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "ConsumeSqsLambdaVersionY1Gcjb7y0sNh4iPiqeBopRUZ0z2a35mtipZnTIjamow"
+        "Ref": "ConsumeSqsLambdaVersionbDizG12BSzNPzTCK837HaYZc9z9DXcGbnnuzv2gPP7U"
       }
     }
   }

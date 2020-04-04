@@ -1,0 +1,13 @@
+  
+Resources:
+  LeekoMessageTemplateTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      BillingMode: PAY_PER_REQUEST
+      TableName: LeekoMessageTemplate
+      AttributeDefinitions:
+        - AttributeName: templateId
+          AttributeType: S
+      KeySchema:
+        - AttributeName: templateId
+          KeyType: HASH

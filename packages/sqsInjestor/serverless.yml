@@ -57,4 +57,5 @@ functions:
 # you can add CloudFormation resource templates here
 resources:
   - ${file(./cfResources/sqsDef.yml)}
+  - ${file(./cfResources/dynamoDef.yml)}
 

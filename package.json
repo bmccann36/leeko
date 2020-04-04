@@ -1,6 +1,7 @@
 {
   "name": "root",
   "private": true,
+  "type": "module",
   "scripts": {
     "install-all": "lerna exec -- npm i"
   },
