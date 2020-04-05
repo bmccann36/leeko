@@ -14,10 +14,9 @@
     "lib"
   ],
   "scripts": {
-    "test": "echo \"Error: run tests from root\" && exit 1"
+    "test": "echo \"Error: run tests from root\" && exit 1",
+    "mytest": "node lib/index.js"
   },
   "dependencies": {
-    "aws-sdk": "^2.652.0",
-    "dotenv": "^8.2.0"
   }
 }

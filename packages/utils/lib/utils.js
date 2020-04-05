@@ -1,8 +1,10 @@
 'use strict';
+const makeShortId = require('./makeShortId');
 
 module.exports = {
   getRandomArbitrary,
-  getRandomInt
+  getRandomInt,
+  makeShortId
 }
 
 

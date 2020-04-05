@@ -13,6 +13,20 @@ const resolvers = {
       await msgTemplateRepository.putMsgTemplate(input.messageTemplateInput);
       return input.messageTemplateInput;
     },
+
+    createBulkDelivery: async (_, { bulkDelieveryInput }) => {
+      console.log(bulkDelieveryInput);
+      /**
+       * TODO
+       * implement actual persistence
+       */
+
+      return {
+        messageTemplateId: bulkDelieveryInput.messageTemplateId,
+        numRecipients: bulkDelieveryInput.recipientIdList.length,
+        messageId: bulkDelieveryInput.messageId
+      }
+    }
   },
 
 };
