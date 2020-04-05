@@ -1,25 +1,20 @@
-// src/resolvers.js
-const { container, TYPES } = require('../iocContainer');
-const msgTemplateRepository = container.get(TYPES.MSG_TEMPLATE_REPOSITORY);
 
-// start repo initialization
-msgTemplateRepository.init();
 
 const resolvers = {
 
   Mutation: {
-    createMessageTemplate: async (root, input, ctx) => {
+    createMessageTemplate: async (_, input, ctx) => {
+      const { msgTemplateRepository } = ctx;
+      // console.log('ctx :', msgTemplateRepository);
       console.log('input.messageTemplateInput :', input.messageTemplateInput);
       await msgTemplateRepository.putMsgTemplate(input.messageTemplateInput);
       return input.messageTemplateInput;
     },
 
-    createBulkDelivery: async (_, { bulkDelieveryInput }) => {
-      console.log(bulkDelieveryInput);
-      /**
-       * TODO
-       * implement actual persistence
-       */
+    createBulkDelivery: async (_, { bulkDelieveryInput }, ctx) => {
+      console.log("bulk delivery resolver invoked");
+      const { bulkMessageService } = ctx;
+      bulkMessageService.sendToRecipients(bulkDelieveryInput);
 
       return {
         messageTemplateId: bulkDelieveryInput.messageTemplateId,

@@ -10,16 +10,21 @@ module.exports = class BulkMessageService {
     this.sqsClient = null;
   }
 
-  /**
-   * TODO
-   * actually deal with credential refreshing/ setting of client instance 
-   */
-  async init() {
-    this.sqsClient = new this.sqsStatic()
+
+  async init(tempCredentials) {
+    console.log("initializing creds for sqs")
+    this.sqsClient = new this.sqsStatic({
+      accessKeyId: tempCredentials.AccessKeyId,
+      secretAccessKey: tempCredentials.SecretAccessKey,
+      sessionToken: tempCredentials.SessionToken
+    })
+    this.accessCreds = tempCredentials;
   }
 
 
-  sendToRecipients(input) {
+  async sendToRecipients(input) {
+    // make sure creds are up to date
+    await this.refreshCredsIfNeeded();
     // break input into batches
     const pendingWrites = [];
     let batchOfTen = [];
@@ -76,6 +81,20 @@ module.exports = class BulkMessageService {
     }
   }
 
+  async refreshCredsIfNeeded() {
+    const credsExpirDateStr = this.accessCreds.Expiration;
+    const credsExpirTs = new Date(credsExpirDateStr).getTime()
+    let currTs = new Date().getTime();
+
+    console.log("millisec till expir: ", credsExpirTs - currTs)
+
+    if (credsExpirTs - currTs < 2000) {
+      console.log("getting new creds synchronously from creds helper")
+      // happens sychronously but have to use await since the fn signature returns a promise
+      const tempCredentials = await this.credentialTool.getTempCreds();
+      this.init(tempCredentials);
+    }
+  }
 
 
 

@@ -9,18 +9,14 @@ module.exports = class MsgTemplateRepository {
     this.docClient = null;
   }
 
-  async init() {
+  init(tempCredentials) {
     console.log("intializing docClient credentials");
-    const creds = await this.credentialTool(
-      process.env.ACCESS_KEY,
-      process.env.SECRET_KEY,
-    );
-    this.accessCreds = creds;
     this.docClient = new this.docClientClass({
-      accessKeyId: creds.AccessKeyId,
-      secretAccessKey: creds.SecretAccessKey,
-      sessionToken: creds.SessionToken
+      accessKeyId: tempCredentials.AccessKeyId,
+      secretAccessKey: tempCredentials.SecretAccessKey,
+      sessionToken: tempCredentials.SessionToken
     })
+    this.accessCreds = tempCredentials;
   }
 
   async refreshCredsIfNeeded() {
@@ -31,19 +27,16 @@ module.exports = class MsgTemplateRepository {
     console.log("millisec till expir: ", credsExpirTs - currTs)
 
     if (credsExpirTs - currTs < 2000) {
-      console.log("request will block till new token is recieved")
-      await this.init() // await statement purposefully blocks 
+      console.log("getting new creds synchronously from creds helper")
+      // happens sychronously but have to use await since the fn signature returns a promise
+      const tempCredentials = await this.credentialTool.getTempCreds();
+      this.init(tempCredentials);
     }
-    else if (credsExpirTs - currTs < 200000) {
-      console.log("token will expire soon will fetch a new one but allow request");
-      this.init() // no await, so it won't block
-    }
-
   }
 
-  async putMsgTemplate(item) {
+  async putMsgTemplate(item, tempCreds) {
 
-    await   this.refreshCredsIfNeeded()
+    await this.refreshCredsIfNeeded()
 
     const params = {
       TableName: this.tableName,

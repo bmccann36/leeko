@@ -1,7 +1,7 @@
-const getAccessCreds = require('./sts/getAccessCreds')
+const CredentialTool = require('./sts/CredentialTool')
 
 module.exports = {
-  getAccessCreds
+  CredentialTool
 }
 
 
