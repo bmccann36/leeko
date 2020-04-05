@@ -2,6 +2,9 @@
 const { container, TYPES } = require('../iocContainer');
 const msgTemplateRepository = container.get(TYPES.MSG_TEMPLATE_REPOSITORY);
 
+// start repo initialization
+msgTemplateRepository.init();
+
 const resolvers = {
 
   Mutation: {

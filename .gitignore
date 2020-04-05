@@ -1,4 +1,5 @@
 packages/*/node_modules/**
 node_modules/**
 packages/*/.serverless/**
-packages/gqlServer/.env
+packages/*/.env
+scratch.js

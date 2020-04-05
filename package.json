@@ -3,7 +3,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "install-all": "lerna exec -- npm i"
+    "install-all": "lerna exec -- npm i",
+    "bootstrap": "lerna bootstrap",
+    "runGql": "lerna run --scope gqlserver start --stream"
   },
   "devDependencies": {
     "aws-sdk": "^2.652.0",

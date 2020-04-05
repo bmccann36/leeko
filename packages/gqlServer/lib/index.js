@@ -9,6 +9,6 @@ const server = new ApolloServer({
 });
 
 
-server
-  .listen()
-  .then(({ url }) => console.log(`Server is running on ${process.env.HOST_NAME}:4000`));
+  server
+    .listen()
+    .then(({ url }) => console.log(`Server is running on ${process.env.HOST_NAME}:4000`));

@@ -1,0 +1,13 @@
+﻿kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: leeko-api-server-config
+  namespace: brian
+  selfLink: /api/v1/namespaces/brian/configmaps/leeko-api-server-config
+  uid: 7a23b0ee-76e4-11ea-8005-026dea060e9c
+  resourceVersion: '66693150'
+  creationTimestamp: '2020-04-05T02:23:46Z'
+data:
+  AWS_REGION: us-east-1
+  HOST_NAME: localhost
+  TABLE_NAME: LeekoMessageTemplate

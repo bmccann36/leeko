@@ -1,0 +1,80 @@
+﻿kind: Deployment
+apiVersion: apps/v1
+metadata:
+  annotations:
+    deployment.kubernetes.io/revision: '3'
+  selfLink: /apis/apps/v1/namespaces/brian/deployments/leeko-api-server
+  resourceVersion: '66695956'
+  name: leeko-api-server
+  uid: 3a2c15c2-76e2-11ea-9777-0ab1f070a510
+  creationTimestamp: '2020-04-05T02:07:39Z'
+  generation: 3
+  namespace: brian
+  labels:
+    run: leeko-api-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: leeko-api-server
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        run: leeko-api-server
+    spec:
+      containers:
+        - resources: {}
+          terminationMessagePath: /dev/termination-log
+          name: leeko-api-server
+          env:
+            - name: TABLE_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: leeko-api-server-config
+                  key: TABLE_NAME
+            - name: AWS_REGION
+              valueFrom:
+                configMapKeyRef:
+                  name: leeko-api-server-config
+                  key: AWS_REGION
+          ports:
+            - containerPort: 4000
+              protocol: TCP
+          imagePullPolicy: Always
+          terminationMessagePolicy: File
+          envFrom:
+            - secretRef:
+                name: leeko-aws-creds
+          image: 'chylomicronman/leekoapiserver:latest'
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+      dnsPolicy: ClusterFirst
+      securityContext: {}
+      schedulerName: default-scheduler
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 25%
+      maxSurge: 25%
+  revisionHistoryLimit: 10
+  progressDeadlineSeconds: 600
+status:
+  observedGeneration: 3
+  replicas: 1
+  updatedReplicas: 1
+  readyReplicas: 1
+  availableReplicas: 1
+  conditions:
+    - type: Available
+      status: 'True'
+      lastUpdateTime: '2020-04-05T02:25:57Z'
+      lastTransitionTime: '2020-04-05T02:25:57Z'
+      reason: MinimumReplicasAvailable
+      message: Deployment has minimum availability.
+    - type: Progressing
+      status: 'True'
+      lastUpdateTime: '2020-04-05T02:27:46Z'
+      lastTransitionTime: '2020-04-05T02:07:39Z'
+      reason: NewReplicaSetAvailable
+      message: ReplicaSet "leeko-api-server-6c594c998f" has successfully progressed.
