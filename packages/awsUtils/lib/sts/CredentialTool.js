@@ -35,7 +35,7 @@ module.exports = class CredentialTool {
     const milliTillExpir = credsExpirTs - currTs
     console.log("millisec till expir: ", milliTillExpir)
     const timeToWaitBeforeRefresh = milliTillExpir - 600000;
-    setInterval(function () {
+    setInterval(() => {
       console.log('creds expir time is approaching, refreshing credentials');
       this.refreshCreds()
     }, timeToWaitBeforeRefresh);
@@ -47,6 +47,7 @@ module.exports = class CredentialTool {
       RoleSessionName: "leekoAppAssumeRoleSession",
     };
     const stsRes = await this.sts.assumeRole(params).promise();
+    console.log("acess creds refreshed, setting creds on helper singleton class")
     this.accessCreds = stsRes.Credentials
   }
 

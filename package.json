@@ -5,7 +5,7 @@
   "scripts": {
     "install-all": "lerna exec -- npm i",
     "bootstrap": "lerna bootstrap",
-    "runGql": "lerna run --scope gqlserver start --stream"
+    "gqlServer": "lerna run --scope gqlserver start --stream"
   },
   "devDependencies": {
     "eslint": "^6.8.0",

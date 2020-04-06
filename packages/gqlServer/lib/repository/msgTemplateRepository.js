@@ -25,7 +25,6 @@ module.exports = class MsgTemplateRepository {
     let currTs = new Date().getTime();
 
     console.log("millisec till expir: ", credsExpirTs - currTs)
-
     if (credsExpirTs - currTs < 2000) {
       console.log("getting new creds synchronously from creds helper")
       // happens sychronously but have to use await since the fn signature returns a promise

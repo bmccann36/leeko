@@ -1,0 +1,34 @@
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: leeko-gql-route
+  namespace: brian
+  selfLink: /apis/route.openshift.io/v1/namespaces/brian/routes/leeko-gql-route
+  uid: 9ef4c8e1-7800-11ea-9fd4-0a580a800038
+  resourceVersion: '68088136'
+  creationTimestamp: '2020-04-06T12:17:45Z'
+  labels:
+    run: leeko-api-server
+  annotations:
+    openshift.io/host.generated: 'true'
+spec:
+  host: leeko-gql-route-brian.apps.openshift.cedruscloud.com
+  subdomain: ''
+  path: /graphql
+  to:
+    kind: Service
+    name: leeko-api-server
+    weight: 100
+  port:
+    targetPort: 4000
+  wildcardPolicy: None
+status:
+  ingress:
+    - host: leeko-gql-route-brian.apps.openshift.cedruscloud.com
+      routerName: default
+      conditions:
+        - type: Admitted
+          status: 'True'
+          lastTransitionTime: '2020-04-06T12:17:45Z'
+      wildcardPolicy: None
+      routerCanonicalHostname: apps.openshift.cedruscloud.com
