@@ -62,99 +62,6 @@
         "LogGroupName": "/aws/lambda/injestsvc-dev-consumeSqs"
       }
     },
-    "IamRoleLambdaExecution": {
-      "Type": "AWS::IAM::Role",
-      "Properties": {
-        "AssumeRolePolicyDocument": {
-          "Version": "2012-10-17",
-          "Statement": [
-            {
-              "Effect": "Allow",
-              "Principal": {
-                "Service": [
-                  "lambda.amazonaws.com"
-                ]
-              },
-              "Action": [
-                "sts:AssumeRole"
-              ]
-            }
-          ]
-        },
-        "Policies": [
-          {
-            "PolicyName": {
-              "Fn::Join": [
-                "-",
-                [
-                  "dev",
-                  "injestsvc",
-                  "lambda"
-                ]
-              ]
-            },
-            "PolicyDocument": {
-              "Version": "2012-10-17",
-              "Statement": [
-                {
-                  "Effect": "Allow",
-                  "Action": [
-                    "logs:CreateLogStream",
-                    "logs:CreateLogGroup"
-                  ],
-                  "Resource": [
-                    {
-                      "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/injestsvc-dev*:*"
-                    }
-                  ]
-                },
-                {
-                  "Effect": "Allow",
-                  "Action": [
-                    "logs:PutLogEvents"
-                  ],
-                  "Resource": [
-                    {
-                      "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/injestsvc-dev*:*:*"
-                    }
-                  ]
-                },
-                {
-                  "Effect": "Allow",
-                  "Action": [
-                    "sqs:ReceiveMessage",
-                    "sqs:DeleteMessage",
-                    "sqs:GetQueueAttributes"
-                  ],
-                  "Resource": [
-                    {
-                      "Fn::GetAtt": [
-                        "SqsQueue",
-                        "Arn"
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          }
-        ],
-        "Path": "/",
-        "RoleName": {
-          "Fn::Join": [
-            "-",
-            [
-              "injestsvc",
-              "dev",
-              {
-                "Ref": "AWS::Region"
-              },
-              "lambdaRole"
-            ]
-          ]
-        }
-      }
-    },
     "ConsumeSqsLambdaFunction": {
       "Type": "AWS::Lambda::Function",
       "Properties": {
@@ -162,14 +69,14 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/injestsvc/dev/1586002119398-2020-04-04T12:08:39.398Z/injestsvc.zip"
+          "S3Key": "serverless/injestsvc/dev/1586226191465-2020-04-07T02:23:11.465Z/injestsvc.zip"
         },
         "FunctionName": "injestsvc-dev-consumeSqs",
         "Handler": "lib/index.consumeSqs",
         "MemorySize": 1024,
         "Role": {
           "Fn::GetAtt": [
-            "IamRoleLambdaExecution",
+            "sqsInjestRole",
             "Arn"
           ]
         },
@@ -183,22 +90,22 @@
       },
       "DependsOn": [
         "ConsumeSqsLogGroup",
-        "IamRoleLambdaExecution"
+        "sqsInjestRole"
       ]
     },
-    "ConsumeSqsLambdaVersionbDizG12BSzNPzTCK837HaYZc9z9DXcGbnnuzv2gPP7U": {
+    "ConsumeSqsLambdaVersionNS0NrbWcY8AkyHHSV9EBxEIsaR4LYL5graKQ12kCNZ8": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "ConsumeSqsLambdaFunction"
         },
-        "CodeSha256": "O6dqzwsp2YQu/2mtsAc0sBmRYVQQ74DDEi5ew90cptQ="
+        "CodeSha256": "sGVTBO4ENo+xxpyxeCF9jaXWAkmzadQ1flV/2ke18tE="
       }
     },
     "ConsumeSqsEventSourceMappingSQSSqsQueue": {
       "Type": "AWS::Lambda::EventSourceMapping",
-      "DependsOn": "IamRoleLambdaExecution",
+      "DependsOn": "sqsInjestRole",
       "Properties": {
         "BatchSize": 10,
         "EventSourceArn": {
@@ -240,6 +147,156 @@
           }
         ]
       }
+    },
+    "LeekoMessageMapping": {
+      "Type": "AWS::DynamoDB::Table",
+      "Properties": {
+        "BillingMode": "PAY_PER_REQUEST",
+        "TableName": "LeekoMessageMapping",
+        "AttributeDefinitions": [
+          {
+            "AttributeName": "recipientId",
+            "AttributeType": "S"
+          },
+          {
+            "AttributeName": "templateId",
+            "AttributeType": "S"
+          }
+        ],
+        "KeySchema": [
+          {
+            "AttributeName": "recipientId",
+            "KeyType": "HASH"
+          },
+          {
+            "AttributeName": "templateId",
+            "KeyType": "RANGE"
+          }
+        ]
+      }
+    },
+    "sqsInjestRole": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "RoleName": "sqsInjestRole",
+        "AssumeRolePolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Principal": {
+                "Service": [
+                  "lambda.amazonaws.com"
+                ]
+              },
+              "Action": "sts:AssumeRole"
+            }
+          ]
+        },
+        "ManagedPolicyArns": [
+          "arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole"
+        ],
+        "Policies": [
+          {
+            "PolicyName": "myPolicyName",
+            "PolicyDocument": {
+              "Version": "2012-10-17",
+              "Statement": [
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "logs:CreateLogGroup",
+                    "logs:CreateLogStream",
+                    "logs:PutLogEvents"
+                  ],
+                  "Resource": [
+                    {
+                      "Fn::Join": [
+                        ":",
+                        [
+                          "arn:aws:logs",
+                          {
+                            "Ref": "AWS::Region"
+                          },
+                          {
+                            "Ref": "AWS::AccountId"
+                          },
+                          "log-group:/aws/lambda/*:*:*"
+                        ]
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "s3:PutObject"
+                  ],
+                  "Resource": {
+                    "Fn::Join": [
+                      "",
+                      [
+                        "arn:aws:s3:::",
+                        {
+                          "Ref": "ServerlessDeploymentBucket"
+                        }
+                      ]
+                    ]
+                  }
+                },
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "dynamodb:*"
+                  ],
+                  "Resource": [
+                    {
+                      "Fn::Join": [
+                        ":",
+                        [
+                          "arn:aws:dynamodb",
+                          {
+                            "Ref": "AWS::Region"
+                          },
+                          {
+                            "Ref": "AWS::AccountId"
+                          },
+                          "table/LeekoMessageMapping"
+                        ]
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "sqs:ReceiveMessage",
+                    "sqs:DeleteMessage",
+                    "sqs:GetQueueAttributes"
+                  ],
+                  "Resource": [
+                    {
+                      "Fn::Join": [
+                        ":",
+                        [
+                          "arn:aws:sqs",
+                          {
+                            "Ref": "AWS::Region"
+                          },
+                          {
+                            "Ref": "AWS::AccountId"
+                          },
+                          "leeko-queue-dev"
+                        ]
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      }
     }
   },
   "Outputs": {
@@ -251,7 +308,7 @@
     "ConsumeSqsLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "ConsumeSqsLambdaVersionbDizG12BSzNPzTCK837HaYZc9z9DXcGbnnuzv2gPP7U"
+        "Ref": "ConsumeSqsLambdaVersionNS0NrbWcY8AkyHHSV9EBxEIsaR4LYL5graKQ12kCNZ8"
       }
     }
   }

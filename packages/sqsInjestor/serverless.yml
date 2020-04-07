@@ -12,6 +12,7 @@ service: injestsvc
 provider:
   name: aws
   runtime: nodejs12.x
+  role: sqsInjestRole
 
 # you can overwrite defaults here
 #  stage: dev
@@ -19,30 +20,6 @@ provider:
 plugins:
   - serverless-dotenv-plugin
 
-# you can add statements to the Lambda function's IAM Role here
-#  iamRoleStatements:
-#    - Effect: "Allow"
-#      Action:
-#        - "s3:ListBucket"
-#      Resource: { "Fn::Join" : ["", ["arn:aws:s3:::", { "Ref" : "ServerlessDeploymentBucket" } ] ]  }
-#    - Effect: "Allow"
-#      Action:
-#        - "s3:PutObject"
-#      Resource:
-#        Fn::Join:
-#          - ""
-#          - - "arn:aws:s3:::"
-#            - "Ref" : "ServerlessDeploymentBucket"
-#            - "/*"
-
-# you can add packaging information here
-#package:
-#  include:
-#    - include-me.js
-#    - include-me-dir/**
-#  exclude:
-#    - exclude-me.js
-#    - exclude-me-dir/**
 
 functions:
   consumeSqs:
@@ -58,4 +35,5 @@ functions:
 resources:
   - ${file(./cfResources/sqsDef.yml)}
   - ${file(./cfResources/dynamoDef.yml)}
+  - ${file(./cfResources/iam.yml)}
 

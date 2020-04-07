@@ -1,11 +1,13 @@
 
-
+const batchWrite = require('awsutils').batchWrite;
 
 module.exports.consumeSqs = async (event) => {
 
-  const records = event.Records;
-  console.log("recieved ", records.length, " records")
-  console.log(records[0]);
+  const items = event.Records.map(record => {
+    return JSON.parse(record.body);
+  })
+  const res = await batchWrite("LeekoMessageMapping", items)
+  console.log('res :', res);
 
 };
 

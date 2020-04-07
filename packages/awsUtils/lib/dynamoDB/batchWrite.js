@@ -12,6 +12,7 @@ module.exports = function (tableName, itemArray) {
     const slicedBatch = itemArray.slice(i, i + 25);
 
     // construct write params
+
     const formatted = (formatBatch(tableName, slicedBatch));
     const pendingBatch = docClient.batchWrite(formatted).promise();
     pendingWrites.push(pendingBatch);
