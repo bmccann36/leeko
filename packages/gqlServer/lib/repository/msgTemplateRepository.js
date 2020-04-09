@@ -3,7 +3,7 @@ module.exports = class MsgTemplateRepository {
 
   constructor(docClient, credentialTool) {
     this.docClientClass = docClient;
-    this.tableName = process.env.TABLE_NAME;
+    this.tableName = process.env.TEMPLATE_TABLE_NAME;
     this.credentialTool = credentialTool;
     this.accessCreds = null;
     this.docClient = null;

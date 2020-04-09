@@ -10,4 +10,4 @@ metadata:
 data:
   AWS_REGION: us-east-1
   HOST_NAME: localhost
-  TABLE_NAME: LeekoMessageTemplate
+  TEMPLATE_TABLE_NAME: LeekoMessageTemplate
