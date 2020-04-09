@@ -10,13 +10,15 @@ const SQS = require('aws-sdk/clients/sqs');
 const MsgTemplateRepository = require('../repository/msgTemplateRepository')
 const CredentialTool = require('awsutils').CredentialTool;
 const BulkMessageService = require('../service/bulkMessageService')
+const RetrieveMessageService = require('../service/retrieveMessageService')
 
 const TYPES = {
   MSG_TEMPLATE_REPOSITORY: 'MSG_TEMPLATE_REPOSITORY',
   DOC_CLIENT: 'DOC_CLIENT',
   SQS_STATIC: 'SQS_STATIC',
   CREDENTIAL_TOOL: 'CREDENTIAL_TOOL',
-  BULK_MESSAGE_SERVCIE: 'BULK_MESSAGE_SERVICE'
+  BULK_MESSAGE_SERVCIE: 'BULK_MESSAGE_SERVICE',
+  RETRIEVE_MESSAGE_SERVICE: 'RETRIEVE_MESSAGE_SERVICE'
 }
 
 
@@ -42,7 +44,11 @@ register(
   TYPES.BULK_MESSAGE_SERVCIE,
   [TYPES.SQS_STATIC, TYPES.CREDENTIAL_TOOL])
   (BulkMessageService)
-
+// RetrieveMessageService
+register(
+  TYPES.RETRIEVE_MESSAGE_SERVICE,
+  [TYPES.DOC_CLIENT, TYPES.CREDENTIAL_TOOL])
+  (RetrieveMessageService)
 
 module.exports = { container, TYPES };
 

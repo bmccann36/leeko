@@ -2,6 +2,13 @@
 
 const resolvers = {
 
+  Query: {
+    userMessages: async (_, { userId }, ctx) => {
+      const { retrieveMessageService } = ctx;
+      const userMessages = await retrieveMessageService.getMessages(userId)
+      return userMessages;
+    }
+  },
   Mutation: {
     createMessageTemplate: async (_, input, ctx) => {
       const { msgTemplateRepository } = ctx;

@@ -7,12 +7,14 @@ const { container, TYPES } = require('./iocContainer');
 const credentialTool = container.get(TYPES.CREDENTIAL_TOOL);
 
 credentialTool.getTempCreds()
-  .then(awsCredentials => {
+  .then((awsCredentials) => {
 
-    const msgTemplateRepository = container.get(TYPES.MSG_TEMPLATE_REPOSITORY);
-    const bulkMessageService = container.get(TYPES.BULK_MESSAGE_SERVCIE);
-    msgTemplateRepository.init(awsCredentials);
-    bulkMessageService.init(awsCredentials);
+    const msgTemplateRepository = container.get(TYPES.MSG_TEMPLATE_REPOSITORY)
+    const bulkMessageService = container.get(TYPES.BULK_MESSAGE_SERVCIE)
+    const retrieveMessageService = container.get(TYPES.RETRIEVE_MESSAGE_SERVICE)
+    msgTemplateRepository.init(awsCredentials)
+    bulkMessageService.init(awsCredentials)
+    retrieveMessageService.init(awsCredentials);
 
     const server = new ApolloServer({
       typeDefs,
@@ -20,6 +22,7 @@ credentialTool.getTempCreds()
       context: {
         msgTemplateRepository,
         bulkMessageService,
+        retrieveMessageService,
       }
     });
 

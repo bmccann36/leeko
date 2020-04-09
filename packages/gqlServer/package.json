@@ -16,7 +16,8 @@
   "scripts": {
     "test": "echo \"Error: run tests from root\" && exit 1",
     "start": "node lib/index.js",
-    "start-dev": "nodemon lib/index.js"
+    "start-dev": "nodemon lib/index.js",
+    "debug": "nodemon --inspect lib/index.js"
   },
   "dependencies": {
     "apollo-server": "^2.11.0",

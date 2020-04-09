@@ -28,6 +28,7 @@ const types = gql`
     }
     type Query {
       getTemplate: MessageTemplate
+      userMessages(userId: ID!): [MessageTemplate]
     }
 
 `;
